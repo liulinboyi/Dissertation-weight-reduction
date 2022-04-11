@@ -1,3 +1,5 @@
+# 网页在线版
+https://blog.heyliubo.top/Dissertation-weight-reduction/
 # 两段文字相似度对比程序（带界面,可用于论文降重）
 ![icon](icon.ico)
 ## （1）使用Python及其simtext包，逐句计算两段文本相似度
