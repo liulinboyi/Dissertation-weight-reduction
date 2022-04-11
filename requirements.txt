@@ -1,7 +1,7 @@
 zhon
 simtext
 Flask==2.1.1
-Werkzeug==1.0.0
+Werkzeug==2.1.1
 uvicorn
 requests
 pydantic
