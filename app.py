@@ -1,10 +1,14 @@
 import json
+
+from flask_cors import CORS
+
 from compare import compareTwo
 
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 app.debug = True
+cors = CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route('/')
