@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>两段文字的相似度对比（原作者：星未 [知乎]）</title>
+    <style>
+        .cicle {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(0, 0, 0, .12);
+            border-top-color: rgba(0, 0, 0, .32);
+
+            border-radius: 50%;
+            -webkit-animation: dui-spin-rotate .8s linear infinite;
+            animation: dui-spin-rotate .8s linear infinite;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: none;
+            margin-bottom: 10px;
+        }
+
+        @keyframes dui-spin-rotate {
+            0% {
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg)
+            }
+
+            to {
+                -webkit-transform: rotate(1turn);
+                transform: rotate(1turn)
+            }
+        }
+    </style>
+    <style>
+        .out {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section {
+            display: flex;
+            flex-direction: row;
+            margin: 5px 0;
+        }
+
+        .section textarea {
+            flex: 1;
+        }
+
+        .section div {
+            flex: 1;
+        }
+
+        #result {
+            padding: 10px 5px;
+        }
+
+        #mytext-res,
+        #para-res {
+            padding: 0 5px;
+        }
+
+        #persent-out {
+            padding: 10px 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="out">
+    <div class="section">
+            <textarea name="" id="mytext" cols="30" rows="10"
+                      placeholder="输入自己写的文字。这里的文字将逐句与下面的文字比较。相似度高于阈值的句子将被标红！"></textarea>
+        <div id="mytext-res"></div>
+    </div>
+    <div class="section">
+        <textarea name="" id="para" cols="30" rows="10" placeholder="输入要对比的文字。"></textarea>
+        <div id="para-res"></div>
+    </div>
+    <div class="section">
+        阈值：<input type="number" id="percent-number">
+    </div>
+    <div id="result">此处显示结果。</div>
+    <div id="persent-out">大于阈值<span id="persont-show">50%</span>的平均相似度为：<span id="persent">0%</span></div>
+</div>
+<div class="cicle"></div>
+<button id="check">查重</button>
+<script>
+    // Example POST method implementation:
+    async function postData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'same-origin', // include, *same-origin, omit
+            headers: {
+                'Content-Type': 'application/json'
+                // 'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
+    let out = document.querySelector(".out")
+    let cicle = document.querySelector(".cicle")
+    let check = document.querySelector("#check")
+    let mytext = document.querySelector("#mytext")
+    let para = document.querySelector("#para")
+    let percentNumber = document.querySelector("#percent-number")
+    let persontShow = document.querySelector("#persont-show")
+    let mytextRes = document.querySelector("#mytext-res")
+    let paraRes = document.querySelector("#para-res")
+    let result = document.querySelector("#result")
+    let persent = document.querySelector("#persent")
+
+    // 设置默认对比值
+    mytext.value = `Python是一种面向对象的解释型计算机程序设计语言，由荷兰人Guidovan Rossum于1989年发明，第一个公开发行版发行于1991年。`
+    para.value = `Python是由荷兰人Guidovan Rossum于1989年发明的，一种面向对象的解释型计算机程序设计语言，第一个公开发行版发行于1991年。`
+    percentNumber.value = 50
+    persontShow.innerHTML = `${percentNumber.value}%`
+
+    check.addEventListener('click', async function () {
+        out.style.display = 'none'
+        cicle.style.display = 'block'
+        let res = await postData(`http://${location.host}/compare`, {
+            mytext: mytext.value,
+            para: para.value,
+            persent: percentNumber.value
+        })
+        console.log(res)
+        mytextRes.innerHTML = res.para1mk
+        paraRes.innerHTML = res.para2mk
+        result.innerHTML = res.text1color
+        persent.innerHTML = res.mean_only
+        persontShow.innerHTML = `${percentNumber.value}%`
+        cicle.style.display = 'none'
+        out.style.display = 'block'
+        // .then(data => {
+        //     console.log(data); // JSON data parsed by `data.json()` call
+        // });
+    })
+</script>
+</body>
+</html>

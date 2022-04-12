@@ -42,6 +42,7 @@
         .section {
             display: flex;
             flex-direction: row;
+            margin: 5px 0;
         }
 
         .section textarea {
@@ -77,8 +78,11 @@
             <textarea name="" id="para" cols="30" rows="10" placeholder="输入要对比的文字。"></textarea>
             <div id="para-res"></div>
         </div>
+        <div class="section">
+            阈值：<input type="number" id="percent-number">
+        </div>
         <div id="result">此处显示结果。</div>
-        <div id="persent-out">大于阈值50%的平均相似度为：<span id="persent">0%</span></div>
+        <div id="persent-out">大于阈值<span id="persont-show">50%</span>的平均相似度为：<span id="persent">0%</span></div>
     </div>
     <div class="cicle"></div>
     <button id="check">查重</button>
@@ -107,6 +111,8 @@
         let check = document.querySelector("#check")
         let mytext = document.querySelector("#mytext")
         let para = document.querySelector("#para")
+        let percentNumber = document.querySelector("#percent-number")
+        let persontShow = document.querySelector("#persont-show")
         let mytextRes = document.querySelector("#mytext-res")
         let paraRes = document.querySelector("#para-res")
         let result = document.querySelector("#result")
@@ -115,19 +121,23 @@
         // 设置默认对比值
         mytext.value = `Python是一种面向对象的解释型计算机程序设计语言，由荷兰人Guidovan Rossum于1989年发明，第一个公开发行版发行于1991年。`
         para.value = `Python是由荷兰人Guidovan Rossum于1989年发明的，一种面向对象的解释型计算机程序设计语言，第一个公开发行版发行于1991年。`
+        percentNumber.value = 50
+        persontShow.innerHTML = `${percentNumber.value}%`
 
         check.addEventListener('click', async function () {
             out.style.display = 'none'
             cicle.style.display = 'block'
-            let res = await postData('https://liulinboyi.pythonanywhere.com/compare', {
+            let res = await postData('http://127.0.0.1:5000/compare', {
                 mytext: mytext.value,
-                para: para.value
+                para: para.value,
+                persent: percentNumber.value
             })
             console.log(res)
             mytextRes.innerHTML = res.para1mk
             paraRes.innerHTML = res.para2mk
             result.innerHTML = res.text1color
             persent.innerHTML = res.mean_only
+            persontShow.innerHTML = `${percentNumber.value}%`
             cicle.style.display = 'none'
             out.style.display = 'block'
             // .then(data => {

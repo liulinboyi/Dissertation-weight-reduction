@@ -211,19 +211,30 @@ def run_comparing(para1, para2, mymethod="Sim_Cosine", mythreshold=0.5):
     return mean_only, text1color, text2color, para12, para22
 
 
-def compareTwo(mytext, para):
-    percent = 50
-    threshold = float(percent) / 100.0
-    mean_only, text1color, text2color, para1mk, para2mk = run_comparing(mytext, para, mythreshold=threshold)
-    outPut = {
-        'mean_only': mean_only,
-        'text1color': text1color,
-        'text2color': text2color,
-        'para1mk': para1mk,
-        'para2mk': para2mk
-    }
-    # print(outPut)
-    return outPut
+def compareTwo(mytext, para, percent):
+    # percent = 50
+    if not percent:
+        percent = 50
+    if percent < 0 or percent > 100:
+        return {
+            'mean_only': 0,
+            'text1color': '阈值必须在[0,100]之间',
+            'text2color': '阈值必须在[0,100]之间',
+            'para1mk': '阈值必须在[0,100]之间',
+            'para2mk': '阈值必须在[0,100]之间'
+        }
+    else:
+        threshold = float(percent) / 100.0
+        mean_only, text1color, text2color, para1mk, para2mk = run_comparing(mytext, para, mythreshold=threshold)
+        outPut = {
+            'mean_only': mean_only,
+            'text1color': text1color,
+            'text2color': text2color,
+            'para1mk': para1mk,
+            'para2mk': para2mk
+        }
+        # print(outPut)
+        return outPut
     # print(mean_only, "mean_only")
     # print(text1color, "text1color")
     # print(text2color, "text2color")
