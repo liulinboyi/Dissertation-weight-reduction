@@ -1,5 +1,17 @@
 # 网页在线版
 https://blog.heyliubo.top/Dissertation-weight-reduction/
+
+在线版使用的是免费服务器，不保证服务稳定性，你可以自己本地安装python环境，本地使用
+## 自己本地使用
+安装好python环境后，运行
+```shell
+pip install -r requirements.txt
+```
+```shell
+python -m flask run -p 8088 -h 0.0.0.0
+```
+打开 http://127.0.0.1:8088 即可在本地使用
+
 # 两段文字相似度对比程序（带界面,可用于论文降重）
 ![icon](icon.ico)
 ## （1）使用Python及其simtext包，逐句计算两段文本相似度
