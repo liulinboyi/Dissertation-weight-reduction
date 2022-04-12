@@ -127,7 +127,7 @@
         check.addEventListener('click', async function () {
             out.style.display = 'none'
             cicle.style.display = 'block'
-            let res = await postData('http://127.0.0.1:5000/compare', {
+            let res = await postData('https://liulinboyi.pythonanywhere.com/compare', {
                 mytext: mytext.value,
                 para: para.value,
                 persent: percentNumber.value
