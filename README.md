@@ -20,7 +20,9 @@ pyinstaller -F --add-data="./templates;templates" .\app.py
 打开 http://127.0.0.1:8088 即可在本地使用
 
 ## 已打包好的EXE
-下载到本地后，双击即可使用
+[下载](https://github.com/liulinboyi/Dissertation-weight-reduction/releases/latest)到本地后，双击即可使用
+
+![](/img/app.png)
 打开 http://127.0.0.1:8088 即可在本地使用
 
 # 两段文字相似度对比程序（带界面,可用于论文降重）
