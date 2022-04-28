@@ -6,3 +6,4 @@ uvicorn
 requests
 pydantic
 flask-cors
+pyinstaller

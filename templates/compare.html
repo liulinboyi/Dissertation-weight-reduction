@@ -37,6 +37,17 @@
         .out {
             display: flex;
             flex-direction: column;
+            position: relative;
+            margin-right: 32px;
+        }
+
+        .fork {
+            position: fixed;
+            right: 8px;
+        }
+
+        .fork a {
+            display: inline-block;
         }
 
         .section {
@@ -68,82 +79,93 @@
     </style>
 </head>
 <body>
-<div class="out">
-    <div class="section">
+    <div class="out">
+        <div class="fork">
+            <a target="_blank" href="https://github.com/liulinboyi/Dissertation-weight-reduction">
+                <svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32"
+                    data-view-component="true" class="octicon octicon-mark-github v-align-middle">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+                    </path>
+                </svg>
+            </a>
+        </div>
+
+        <div class="section">
             <textarea name="" id="mytext" cols="30" rows="10"
-                      placeholder="输入自己写的文字。这里的文字将逐句与下面的文字比较。相似度高于阈值的句子将被标红！"></textarea>
-        <div id="mytext-res"></div>
+                placeholder="输入自己写的文字。这里的文字将逐句与下面的文字比较。相似度高于阈值的句子将被标红！"></textarea>
+            <div id="mytext-res"></div>
+        </div>
+        <div class="section">
+            <textarea name="" id="para" cols="30" rows="10" placeholder="输入要对比的文字。"></textarea>
+            <div id="para-res"></div>
+        </div>
+        <div class="section">
+            阈值：<input type="number" id="percent-number">
+        </div>
+        <div id="result">此处显示结果。</div>
+        <div id="persent-out">大于阈值<span id="persont-show">50%</span>的平均相似度为：<span id="persent">0%</span></div>
     </div>
-    <div class="section">
-        <textarea name="" id="para" cols="30" rows="10" placeholder="输入要对比的文字。"></textarea>
-        <div id="para-res"></div>
-    </div>
-    <div class="section">
-        阈值：<input type="number" id="percent-number">
-    </div>
-    <div id="result">此处显示结果。</div>
-    <div id="persent-out">大于阈值<span id="persont-show">50%</span>的平均相似度为：<span id="persent">0%</span></div>
-</div>
-<div class="cicle"></div>
-<button id="check">查重</button>
-<script>
-    // Example POST method implementation:
-    async function postData(url = '', data = {}) {
-        // Default options are marked with *
-        const response = await fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
-            mode: 'cors', // no-cors, *cors, same-origin
-            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: 'same-origin', // include, *same-origin, omit
-            headers: {
-                'Content-Type': 'application/json'
-                // 'Content-Type': 'application/x-www-form-urlencoded',
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data) // body data type must match "Content-Type" header
-        });
-        return response.json(); // parses JSON response into native JavaScript objects
-    }
+    <div class="cicle"></div>
+    <button id="check">查重</button>
+    <script>
+        // Example POST method implementation:
+        async function postData(url = '', data = {}) {
+            // Default options are marked with *
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                mode: 'cors', // no-cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return response.json(); // parses JSON response into native JavaScript objects
+        }
 
-    let out = document.querySelector(".out")
-    let cicle = document.querySelector(".cicle")
-    let check = document.querySelector("#check")
-    let mytext = document.querySelector("#mytext")
-    let para = document.querySelector("#para")
-    let percentNumber = document.querySelector("#percent-number")
-    let persontShow = document.querySelector("#persont-show")
-    let mytextRes = document.querySelector("#mytext-res")
-    let paraRes = document.querySelector("#para-res")
-    let result = document.querySelector("#result")
-    let persent = document.querySelector("#persent")
+        let out = document.querySelector(".out")
+        let cicle = document.querySelector(".cicle")
+        let check = document.querySelector("#check")
+        let mytext = document.querySelector("#mytext")
+        let para = document.querySelector("#para")
+        let percentNumber = document.querySelector("#percent-number")
+        let persontShow = document.querySelector("#persont-show")
+        let mytextRes = document.querySelector("#mytext-res")
+        let paraRes = document.querySelector("#para-res")
+        let result = document.querySelector("#result")
+        let persent = document.querySelector("#persent")
 
-    // 设置默认对比值
-    mytext.value = `Python是一种面向对象的解释型计算机程序设计语言，由荷兰人Guidovan Rossum于1989年发明，第一个公开发行版发行于1991年。`
-    para.value = `Python是由荷兰人Guidovan Rossum于1989年发明的，一种面向对象的解释型计算机程序设计语言，第一个公开发行版发行于1991年。`
-    percentNumber.value = 50
-    persontShow.innerHTML = `${percentNumber.value}%`
-
-    check.addEventListener('click', async function () {
-        out.style.display = 'none'
-        cicle.style.display = 'block'
-        let res = await postData(`http://${location.host}/compare`, {
-            mytext: mytext.value,
-            para: para.value,
-            persent: percentNumber.value
-        })
-        console.log(res)
-        mytextRes.innerHTML = res.para1mk
-        paraRes.innerHTML = res.para2mk
-        result.innerHTML = res.text1color
-        persent.innerHTML = res.mean_only
+        // 设置默认对比值
+        mytext.value = `Python是一种面向对象的解释型计算机程序设计语言，由荷兰人Guidovan Rossum于1989年发明，第一个公开发行版发行于1991年。`
+        para.value = `Python是由荷兰人Guidovan Rossum于1989年发明的，一种面向对象的解释型计算机程序设计语言，第一个公开发行版发行于1991年。`
+        percentNumber.value = 50
         persontShow.innerHTML = `${percentNumber.value}%`
-        cicle.style.display = 'none'
-        out.style.display = 'block'
-        // .then(data => {
-        //     console.log(data); // JSON data parsed by `data.json()` call
-        // });
-    })
-</script>
+
+        check.addEventListener('click', async function () {
+            out.style.display = 'none'
+            cicle.style.display = 'block'
+            let res = await postData('https://liulinboyi.pythonanywhere.com/compare', {
+                mytext: mytext.value,
+                para: para.value,
+                persent: percentNumber.value
+            })
+            console.log(res)
+            mytextRes.innerHTML = res.para1mk
+            paraRes.innerHTML = res.para2mk
+            result.innerHTML = res.text1color
+            persent.innerHTML = res.mean_only
+            persontShow.innerHTML = `${percentNumber.value}%`
+            cicle.style.display = 'none'
+            out.style.display = 'block'
+            // .then(data => {
+            //     console.log(data); // JSON data parsed by `data.json()` call
+            // });
+        })
+    </script>
 </body>
 </html>
