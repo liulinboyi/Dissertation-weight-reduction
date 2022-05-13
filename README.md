@@ -1,7 +1,7 @@
 # 网页在线版
 https://blog.heyliubo.top/Dissertation-weight-reduction/
 
-在线版使用的是免费服务器，不保证服务稳定性，你可以自己本地安装python环境，本地使用
+在线版使用的是[免费服务器 pythonanywhere](https://www.pythonanywhere.com/)，不保证服务稳定性，你可以自己本地安装python环境，本地使用
 ## 自己本地使用
 安装好python环境后，运行
 ```shell
