@@ -1,5 +1,4 @@
 # 网页在线版
-https://blog.heyliubo.top/Dissertation-weight-reduction/
 
 你好，感谢你体验这个项目，我是把原来[大佬](https://github.com/Xinger006)的项目搬到Web网页上，首先确实文字长了不太行，推荐先查一次重，拿着查重结果，看论文中哪里和其他论文重复率高了，使用[汉语反向词典](https://wantwords.net/)找近义词替换，一部分一部分的降重，我当时就是这么降重的。
 
